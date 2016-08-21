@@ -13,8 +13,9 @@ AudioPlayer player;
 float magnify = 200; // This is how big we want the rose to be.
 float phase = 0; // Phase Coefficient : this is basically how far round the circle we are going to go
 float amp = 0; // Amp Coefficient : this is basically how far from the origin we are.
-int elements = 128;// This is the number of points and lines we will calculate at once. 1000 is alot actually. 
-float threshold = 0.35;// try increasing this if it jumps around too much
+float amp_increase = 0.2; //wsl-diff
+int elements = 64;// wsl-diff Was 128. This is the number of points and lines we will calculate at once. 1000 is alot actually. 
+float threshold = 0.7;// wsl-diff started at 0.35. Try increasing this if it jumps around too much
 int wait=0;
 boolean playit;
 
@@ -49,13 +50,16 @@ void draw() {
     }
     wait--;// counting down...
   }
-  amp += 0.05;//get the mouse Y coordinate and use it to set the current amp coefficient
+  // amp += 0.05;//wsl-diff get the mouse Y coordinate and use it to set the current amp coefficient
+  amp += mouseY/250;// wsl-diff
   float spacing = TWO_PI/elements; // this is how far apart each 'node' will be - study it. 
   translate(width*0.5, height*0.5);// we translate the whole sketch to the centre of the screen, so 0,0 is in the middle.
   fill(0, 50);
   rect(0, 0, width, height);
   noFill();
   strokeWeight(2);
+  magnify = map(mouseX, 0, 768, 0, 200); //wsl-diff
+  println(magnify); //wsl-diff
   for (int i = 0; i < elements;i++) {
     stroke(i*2, 255, 255, 50);
     pushMatrix();
@@ -66,8 +70,8 @@ void draw() {
     rotate(i);
     //noStroke();
     //fill(i*2,255,255,10);
-    //ellipse(0,0,i*(power*10),i*(power*10));
-    line(0, i*(power*10)-200, 0, 0);
+    ellipse(0,0,i*(power*10),i*(power*10)); //wsl-diff
+    //line(0, i*(power*10)-200, 0, 0); //wsl-diff
     popMatrix();
     stroke(255, 0, 0);
   }
@@ -86,4 +90,3 @@ void mousePressed() {
     player.stop();
   }
 }
-

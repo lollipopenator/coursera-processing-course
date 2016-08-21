@@ -1183,5 +1183,3 @@ public class FFT {
 	}
     }
 }
-
-
