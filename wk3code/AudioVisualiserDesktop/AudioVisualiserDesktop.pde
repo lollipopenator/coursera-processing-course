@@ -6,16 +6,34 @@
 //When running on the iPad or iPhone, you won't see anything unless you tap the screen.
 //If it doesn't appear to work first time, always try refreshing the browser.
 
+//////////////// Assignment Three /////////////////////////////////////////////////////////////////////////////////////
+// Below is a list of customisations made to this file for the week 3 assignment of the Coursera/London Uni Course 
+// "Creative Programming for Digitak Media and Mobile Apps".
 
+// To quickly find all the changes I have made, search for 'wsl-diff' as I have put this i a comment on each 
+// altered line.
+//
+// 0.DON'T FORGET TO CLICK ONCE ON PROCESSING WINDOW TO START ANIMATION AND MUSIC RUNNING!!!
+//
+// 1. mouseX now controls the size of the 'magnify' parameter, which in turn controls how widely 
+// the visualisation is 'stretched out' horizontally across the screen.
+// Moving the mouse horizontally away from the centre of the screen causes 
+// the animation to stretch out wider, moving it back in  horizontally towards 
+// the center of the screen causes the animation to squeeze in closer to the center.
+  
+// 2. I commented out the 'line(..) command (around line 80), and re-instated the 'ellipse' command, 
+// as I was interested in how it would look.
+
+// 3., 4.I also reduced the number of elements, and increased the beat-detection threshold from 0.35 to 0.7.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Maxim maxim;
 AudioPlayer player;
 
 float magnify = 200; // This is how big we want the rose to be.
 float phase = 0; // Phase Coefficient : this is basically how far round the circle we are going to go
 float amp = 0; // Amp Coefficient : this is basically how far from the origin we are.
-float amp_increase = 0.2; //wsl-diff
-int elements = 64;// wsl-diff Was 128. This is the number of points and lines we will calculate at once. 1000 is alot actually. 
-float threshold = 0.7;// wsl-diff started at 0.35. Try increasing this if it jumps around too much
+int elements = 64;// wsl-diff This was  originally 128. This is the number of points and lines we will calculate at once. 1000 is alot actually. 
+float threshold = 0.7;// wsl-diff  This was originally 0.35. Try increasing this if it jumps around too much
 int wait=0;
 boolean playit;
 
@@ -50,16 +68,19 @@ void draw() {
     }
     wait--;// counting down...
   }
-  // amp += 0.05;//wsl-diff get the mouse Y coordinate and use it to set the current amp coefficient
-  amp += mouseY/250;// wsl-diff
+  amp += 0.05;
   float spacing = TWO_PI/elements; // this is how far apart each 'node' will be - study it. 
   translate(width*0.5, height*0.5);// we translate the whole sketch to the centre of the screen, so 0,0 is in the middle.
   fill(0, 50);
   rect(0, 0, width, height);
   noFill();
   strokeWeight(2);
-  magnify = map(mouseX, 0, 768, 0, 200); //wsl-diff
-  println(magnify); //wsl-diff
+  // wsl-diff mouseX now controls the size of the 'magnify' parameter, which in turn controls how widely 
+  // the visualisation is 'stretched out' horizontally across the screen.
+  // Moving the mouse horizontally away from the centre of the screen causes 
+  // the animation to stretch out wider, moving it back in  horizontally towards 
+  // the center of the screen causes the animation to squeeze in closer to the center.
+  magnify = map(mouseX-768/2, 0, 768, 0, 200); // wsl-diff
   for (int i = 0; i < elements;i++) {
     stroke(i*2, 255, 255, 50);
     pushMatrix();
@@ -70,6 +91,8 @@ void draw() {
     rotate(i);
     //noStroke();
     //fill(i*2,255,255,10);
+    // wsl-diff I commented out the 'line(..) command below, and re-instated the 
+    // 'ellipse' command, as I was interested in how it would look.
     ellipse(0,0,i*(power*10),i*(power*10)); //wsl-diff
     //line(0, i*(power*10)-200, 0, 0); //wsl-diff
     popMatrix();
