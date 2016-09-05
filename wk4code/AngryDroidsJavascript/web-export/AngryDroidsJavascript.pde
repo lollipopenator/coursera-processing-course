@@ -69,7 +69,11 @@ void setup() {
    * borderBoxHeight The containing box's height - should be smaller than the world height, so that no object can escape
    * pixelsPerMeter Pixels per physical meter
    */
-  physics = new Physics(this, width, height, 0, -10, width*2, height*2, width, height, 100);
+  // I've made gravity smaller by a factor of 10000, and also made the 'strength' of the catapult smaller by a factor of 10. 
+  // These two changes to create a slower game that appears to be occurring in a low-gravity situation. To 
+  // quickly see where I've made the changes, search through this file for the tag 'wsl-diff' in the comments.
+  gravity_scale_factor = 0.0001; //wsl-diff
+  physics = new Physics(this, width, height, 0, -10 * gravity_scale_factor, width*2, height*2, width, height, 100); //wsl
   // this overrides the debug render of the physics engine
   // with the method myCustomRenderer
   // comment out to use the debug renderer 
@@ -165,7 +169,7 @@ void mouseReleased()
   Vec2 impulse = new Vec2();
   impulse.set(startPoint);
   impulse = impulse.sub(droid.getWorldCenter());
-  impulse = impulse.mul(50);
+  impulse = impulse.mul(50 * gravity_scale_factor * 1000); //wsl-diff
   droid.applyImpulse(impulse, droid.getWorldCenter());
 }
 
